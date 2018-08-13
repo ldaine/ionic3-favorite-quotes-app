@@ -1,6 +1,7 @@
+import { Quote } from './../../data/quote.interface';
 import { QuotesGroup } from './../../data/quotesGroup.interface';
 import { Component } from '@angular/core';
-import { IonicPage, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -9,5 +10,18 @@ import { IonicPage, NavParams } from 'ionic-angular';
 })
 export class QuotePage{
 
-  
+  person: string; 
+  text: string; 
+
+  constructor(private viewCtrl:ViewController, 
+              private navParams: NavParams){}
+
+  ionViewDidLoad(){
+    this.person = this.navParams.get('person'); 
+    this.text = this.navParams.get('text'); 
+  }
+
+  onClose(remove = false){
+    this.viewCtrl.dismiss(remove); 
+  }
 }

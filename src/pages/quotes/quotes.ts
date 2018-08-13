@@ -1,3 +1,4 @@
+import { QuotesService } from './../../services/quotes';
 import { Quote } from './../../data/quote.interface';
 import { QuotesGroup } from './../../data/quotesGroup.interface';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,9 @@ import { IonicPage, NavParams, AlertController } from 'ionic-angular';
 export class QuotesPage implements OnInit {
     quotesGroup: QuotesGroup; 
 
-    constructor(private navParams: NavParams, private alertCtrl: AlertController){}
+    constructor(private navParams: NavParams, 
+                private alertCtrl: AlertController, 
+                private quotesService: QuotesService){}
   
     // ionViewDidLoad(){
     //   this.quotesGroup = this.navParams.data; 
@@ -22,7 +25,7 @@ export class QuotesPage implements OnInit {
         this.quotesGroup = this.navParams.data; 
     }
 
-    onAddToFavorite(selectedQuote: Quote){
+    onAddToFavorites(selectedQuote: Quote){
         const alert = this.alertCtrl.create({
             title: 'Add Quote', 
             subTitle: 'Are qou sure? ', 
@@ -32,6 +35,7 @@ export class QuotesPage implements OnInit {
                     text: 'Yes', 
                     handler: ()=>{
                         console.log('ok'); 
+                        this.quotesService.addQuoteToFavorite(selectedQuote); 
                     }
                 }, 
                 {
@@ -44,5 +48,13 @@ export class QuotesPage implements OnInit {
             ]
         }); 
         alert.present(); 
+    }
+
+    onRemoveFromFavorites(selectedQuote: Quote){
+        this.quotesService.removeQuoteFromFavorites(selectedQuote); 
+    }
+
+    isFavorite(quote: Quote){
+        return this.quotesService.isQuoteFavorite(quote); 
     }
 }
