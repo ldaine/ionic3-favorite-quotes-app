@@ -1,3 +1,4 @@
+import { SettingsService } from './../../services/settings';
 import { Quote } from './../../data/quote.interface';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, ModalController } from 'ionic-angular';
@@ -13,6 +14,7 @@ export class FavoritesPage implements OnInit {
     favoriteQuotes: Quote[]; 
     
     constructor(private quotesService: QuotesService, 
+                private settingsService: SettingsService, 
                 private modalCtrl: ModalController){}
 
     ngOnInit(){
@@ -38,5 +40,9 @@ export class FavoritesPage implements OnInit {
         //this.favoriteQuotes = this.quotesService.getFavoriteQuotes(); 
         const foundQuote = this.favoriteQuotes.findIndex((item: Quote)=>quote.id == item.id); 
         this.favoriteQuotes.splice(foundQuote, 1); 
+    }
+
+    getBackground(){
+        return this.settingsService.isAltBackground() ? 'altQuoteBackground': 'quoteBackground'; 
     }
 }
